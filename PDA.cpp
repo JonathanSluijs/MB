@@ -8,7 +8,7 @@ PDA::PDA(const std::string &filepath) {
     std::vector<std::string> stateStrings;
     std::vector<std::string> alphabetStrings;
     std::vector<std::string> stackAlphabetStrings;
-    std::vector<Transition> transitionData; // Assuming you have some way to represent transition data.
+    std::vector<Transition> transitionData;
     std::string startStateString;
     std::string startStackString;
 
@@ -32,20 +32,18 @@ PDA::PDA(const std::string &filepath) {
 
     // Initialize transitions
     for (const auto& tdata : transitionData) {
-        // Convert transition data to actual Transition objects.
-        // This assumes Transition has a suitable constructor.
         transitions.push_back(Transition(tdata));
     }
 
     // Initialize startState and startStack
-    startState = findState(startStateString); // Assuming you have a findState method similar to findSymbol
+    startState = findState(startStateString);
     startStack = startStackString;
 }
 
 State* PDA::findState(const std::string &stateName) const {
     // Loop through the states set
     for (const auto& state : states) {
-        if (state->getName() == stateName) {  // Assuming State class has a getName() method
+        if (state->getName() == stateName) {
             return state;
         }
     }
@@ -72,7 +70,7 @@ CFG PDA::toCFG() {
 
 
 
-// Step 2: Add productions based on transitions
+// Add productions based on transitions
     for (const Transition& t : transitions) {
         std::string from = t.from;
         std::string to = t.to;
@@ -102,7 +100,7 @@ CFG PDA::toCFG() {
         }
     }
 
-    // Step 4: Setting the start symbol
+    //Setting the start symbol
     cfg.setStartSymbol(cfg.findSymbol("[" + startState->getName() + "," + startState->getName() + "]"));
     for (State* s : states) {
         cfg.addToProductions(new Production(cfg.findSymbol("S"), {cfg.findSymbol("[" + startState->getName() + "," + startStack + "," + s->getName() + "]")}));
@@ -116,7 +114,7 @@ CFG PDA::toCFG() {
 
 }
 
-
+// Print function just for testing
 void PDA::print() const {
     std::cout << "States: ";
     for (const auto &state : states) {
@@ -147,15 +145,4 @@ void PDA::print() const {
 
     std::cout << "Start State: " << startState->getName() << "\n";
     std::cout << "Start Stack: " << startStack << "\n";
-}
-
-bool PDA::transition(const std::string &state, const std::string &input, const std::string &stackTop, std::string &nextState, std::vector<std::string> &replacement) const {
-    for (const auto &trans : transitions) {
-        if (trans.from == state && trans.input == input && trans.stacktop == stackTop) {
-            nextState = trans.to;
-            replacement = trans.replacement;
-            return true;
-        }
-    }
-    return false;
 }

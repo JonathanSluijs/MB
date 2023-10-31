@@ -38,7 +38,6 @@ CFG::CFG(std::string filepath) {
 
         // Convert body strings to symbols
         for (const auto& symbol : bodyStrings) {
-            // Determine whether the symbol is a terminal or non-terminal
             Symbol* symbolPtr = findSymbol(symbol);
             if (symbolPtr != nullptr) {
                 body.push_back(symbolPtr);

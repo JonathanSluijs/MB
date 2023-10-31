@@ -25,12 +25,12 @@ void Production::setBody(const std::vector<Symbol *> &body) {
 }
 
 bool Production::compare(const Production* a, const Production* b) {
-    // 1. Compare the heads
+    //  Compare the heads
     if (a->getHead() != b->getHead()) {
         return a->getHead()->getSymbol() < b->getHead()->getSymbol();
     }
 
-    // 2 & 3. Compare the bodies lexicographically
+    // Compare the bodies lexicographically
     return std::lexicographical_compare(
             a->getBody().begin(), a->getBody().end(),
             b->getBody().begin(), b->getBody().end(),

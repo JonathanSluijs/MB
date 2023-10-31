@@ -17,8 +17,6 @@ public:
 
     void print() const;
 
-    bool transition(const std::string &state, const std::string &input, const std::string &stackTop, std::string &nextState, std::vector<std::string> &replacement) const;
-
     CFG toCFG();
 
     State* findState(const std::string &stateName) const;
